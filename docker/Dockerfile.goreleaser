@@ -1,0 +1,3 @@
+FROM gcr.io/distroless/static-debian11
+ENTRYPOINT ["/usr/bin/p1-monitor"]
+COPY p1-monitor /usr/bin/p1-monitor
