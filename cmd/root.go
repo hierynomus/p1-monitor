@@ -42,6 +42,7 @@ func RootCommand(cfg *config.Config) *cobra.Command {
 			vp := viper.New()
 			vp.SetConfigName("config")
 			vp.AddConfigPath(".")
+			vp.AddConfigPath("/etc/p1-monitor")
 			vp.SetConfigType("yaml")
 
 			logger := log.Ctx(cmd.Context())
