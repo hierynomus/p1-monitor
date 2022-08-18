@@ -2,9 +2,8 @@ package cmd
 
 import (
 	"github.com/hierynomus/p1-monitor/internal/config"
-	p1http "github.com/hierynomus/p1-monitor/internal/http"
+	"github.com/hierynomus/p1-monitor/internal/monitor"
 	"github.com/hierynomus/p1-monitor/version"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog/log"
 
 	"github.com/spf13/cobra"
@@ -24,11 +23,11 @@ func RunStart(cfg *config.Config) func(cmd *cobra.Command, args []string) error 
 		logger := log.Ctx(cmd.Context())
 		logger.Info().Str("version", version.Version).Str("commit", version.Commit).Str("date", version.Date).Msg("Starting P1 Monitor")
 
-		telegramHandler := p1http.NewTelegramHandler(cmd.Context())
-		server := p1http.NewDsmrServer(cmd.Context(), cfg.Http)
-		server.AddHandler("/metrics", promhttp.Handler())
-		server.AddHandler("/", telegramHandler)
+		m, err := monitor.NewMonitor(cmd.Context(), cfg)
+		if err != nil {
+			return err
+		}
 
-		return nil
+		return m.Start(cmd.Context())
 	}
 }
