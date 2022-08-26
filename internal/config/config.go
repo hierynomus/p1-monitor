@@ -1,11 +1,21 @@
 package config
 
 import (
-	p1http "github.com/hierynomus/p1-monitor/internal/http"
-	"github.com/hierynomus/p1-monitor/pkg/dsmr"
+	"github.com/hierynomus/iot-monitor/pkg/config"
+	"github.com/hierynomus/p1-monitor/internal/dsmr"
 )
 
+var _ config.MonitorConfig = (*Config)(nil)
+
 type Config struct {
-	Serial dsmr.Config   `yaml:"serial" viper:"serial"`
-	Http   p1http.Config `yaml:"http" viper:"http"`
+	Serial dsmr.Config       `yaml:"serial" viper:"serial"`
+	Http   config.HTTPConfig `yaml:"http" viper:"http"`
+}
+
+func (c *Config) HTTP() config.HTTPConfig {
+	return c.Http
+}
+
+func (c *Config) RawMessageContentType() string {
+	return "text/plain"
 }

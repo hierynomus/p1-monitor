@@ -9,21 +9,24 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/hierynomus/p1-monitor/internal/logging"
-	"github.com/hierynomus/p1-monitor/pkg/crc16"
+	"github.com/hierynomus/iot-monitor/pkg/logging"
+	"github.com/hierynomus/iot-monitor/pkg/scraper"
+	"github.com/hierynomus/p1-monitor/internal/crc16"
 	"github.com/tarm/serial"
 )
 
-type RawTelegram []byte
+var _ scraper.Scraper = (*Reader)(nil)
 
 type Reader struct {
-	config    Config
-	port      *serial.Port
-	ch        chan<- RawTelegram
-	WaitGroup *sync.WaitGroup
+	config Config
+	port   *serial.Port
+	ch     chan scraper.RawMessage
+	wg     *sync.WaitGroup
 }
 
-func NewDsmrReader(config Config, ch chan<- RawTelegram) (*Reader, error) {
+func NewDsmrReader(config Config) (*Reader, error) {
+	ch := make(chan scraper.RawMessage)
+
 	port, err := serial.OpenPort(&serial.Config{
 		Name:     config.Device,
 		Baud:     config.Baud,
@@ -36,30 +39,40 @@ func NewDsmrReader(config Config, ch chan<- RawTelegram) (*Reader, error) {
 	}
 
 	return &Reader{
-		config:    config,
-		port:      port,
-		ch:        ch,
-		WaitGroup: &sync.WaitGroup{},
+		config: config,
+		port:   port,
+		ch:     ch,
+		wg:     &sync.WaitGroup{},
 	}, nil
 }
 
 func (r *Reader) Start(ctx context.Context) error {
-	r.WaitGroup.Add(1)
+	r.wg.Add(1)
 
 	go r.run(ctx)
 
 	return nil
 }
 
-func (r *Reader) Stop() {
+func (r *Reader) Stop() error {
 	r.port.Close()
+
+	return nil
+}
+
+func (r *Reader) Wait() {
+	r.wg.Wait()
+}
+
+func (r *Reader) Output() <-chan scraper.RawMessage {
+	return r.ch
 }
 
 func (r *Reader) run(ctx context.Context) {
 	reader := bufio.NewReader(r.port)
 	logger := logging.LoggerFor(ctx, "dsmr")
 
-	defer r.WaitGroup.Done()
+	defer r.wg.Done()
 	defer close(r.ch)
 
 	for {
@@ -97,7 +110,7 @@ func (r *Reader) run(ctx context.Context) {
 			}
 		}
 
-		r.ch <- RawTelegram(rawTelegram)
+		r.ch <- scraper.RawMessage(rawTelegram)
 	}
 }
 
