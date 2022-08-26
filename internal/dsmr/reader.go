@@ -9,23 +9,23 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/hierynomus/iot-monitor/pkg/iot"
 	"github.com/hierynomus/iot-monitor/pkg/logging"
-	"github.com/hierynomus/iot-monitor/pkg/scraper"
 	"github.com/hierynomus/p1-monitor/internal/crc16"
 	"github.com/tarm/serial"
 )
 
-var _ scraper.Scraper = (*Reader)(nil)
+var _ iot.Scraper = (*Reader)(nil)
 
 type Reader struct {
 	config Config
 	port   *serial.Port
-	ch     chan scraper.RawMessage
+	ch     chan iot.RawMessage
 	wg     *sync.WaitGroup
 }
 
 func NewDsmrReader(config Config) (*Reader, error) {
-	ch := make(chan scraper.RawMessage)
+	ch := make(chan iot.RawMessage)
 
 	port, err := serial.OpenPort(&serial.Config{
 		Name:     config.Device,
@@ -64,7 +64,7 @@ func (r *Reader) Wait() {
 	r.wg.Wait()
 }
 
-func (r *Reader) Output() <-chan scraper.RawMessage {
+func (r *Reader) Output() <-chan iot.RawMessage {
 	return r.ch
 }
 
@@ -110,7 +110,7 @@ func (r *Reader) run(ctx context.Context) {
 			}
 		}
 
-		r.ch <- scraper.RawMessage(rawTelegram)
+		r.ch <- iot.RawMessage(rawTelegram)
 	}
 }
 

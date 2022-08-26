@@ -1,7 +1,7 @@
 package p1metrics
 
 import (
-	"github.com/hierynomus/iot-monitor/pkg/exporter"
+	"github.com/hierynomus/iot-monitor/pkg/iot"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -9,7 +9,7 @@ const (
 	namespace = "p1"
 )
 
-var _ exporter.MetricProvider = (*Provider)(nil)
+var _ iot.MetricProvider = (*Provider)(nil)
 
 type Provider struct{}
 
@@ -32,8 +32,8 @@ func labels(kvs ...string) map[string]string {
 }
 
 // MetricBuilders contains builders for all object types in a DSMR frame.
-func (p Provider) Metrics() map[string]exporter.MetricCollector {
-	return map[string]exporter.MetricCollector{
+func (p Provider) Metrics() map[string]iot.MetricCollector {
+	return map[string]iot.MetricCollector{
 		"1-0:1.8.1":   NewGaugeL("electricity_delivered_to_client_kwh", "Meter Reading electricity delivered to client in 0,001 kWh", labels("tariff", "1", "dsmr_key", "1-0:1.8.1")),
 		"1-0:1.8.2":   NewGaugeL("electricity_delivered_to_client_kwh", "Meter Reading electricity delivered to client in 0,001 kWh", labels("tariff", "2", "dsmr_key", "1-0:1.8.2")),
 		"1-0:2.8.1":   NewGaugeL("electricity_delivered_by_client_kwh", "Meter Reading electricity delivered by client in 0,001 kWh", labels("tariff", "1", "dsmr_key", "1-0:2.8.1")),

@@ -9,7 +9,7 @@ var _ config.MonitorConfig = (*Config)(nil)
 
 type Config struct {
 	Serial dsmr.Config       `yaml:"serial" viper:"serial"`
-	Http   config.HTTPConfig `yaml:"http" viper:"http"`
+	Http   config.HTTPConfig `yaml:"http" viper:"http"` //nolint:revive
 }
 
 func (c *Config) HTTP() config.HTTPConfig {
