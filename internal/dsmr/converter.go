@@ -19,8 +19,9 @@ func (c Converter) Convert(rawMessage iot.RawMessage) (iot.MetricMessage, error)
 	msg := map[string]iot.Metric{}
 	for k, v := range parsedTelegram.DataObjects {
 		msg[k] = iot.Metric{
-			Value: v.Value,
-			Unit:  v.Unit,
+			Value:    v.Value,
+			Unit:     v.Unit,
+			Absolute: true, // All DSMR metrics are absolute
 		}
 	}
 

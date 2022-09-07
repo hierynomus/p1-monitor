@@ -4,7 +4,8 @@ go 1.19
 
 require github.com/prometheus/client_golang v1.13.0
 
-require github.com/hierynomus/iot-monitor v0.0.6
+require github.com/hierynomus/iot-monitor v0.0.7
+
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
