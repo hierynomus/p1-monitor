@@ -17,17 +17,19 @@ func main() {
 	ctx := log.Logger.WithContext(context.Background())
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	cfg := &config.Config{}
-	if err := iot.StartMonitor(ctx, "p1-monitor", "P1 Monitor", cfg, func() (*monitor.Monitor, error) {
+	bootstrapper := iot.NewBootstrapper("p1-monitor", "P1 Monitor", "P1", cfg, func() (*monitor.Monitor, error) {
 		s, err := dsmr.NewDsmrReader(cfg.Serial)
 		if err != nil {
 			return nil, err
 		}
 
-		mp := p1metrics.Provider{}
+		mp := p1metrics.NewProvider(cfg)
 		converter := dsmr.Converter{}
 
 		return monitor.NewMonitor(ctx, cfg, s, mp, converter)
-	}); err != nil {
-		log.Fatal().Err(err).Msg("Failed to start monitor")
+	})
+
+	if err := bootstrapper.Start(ctx); err != nil {
+		log.Fatal().Err(err).Msg("Failed to start")
 	}
 }

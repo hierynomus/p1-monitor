@@ -152,10 +152,10 @@ github.com/hashicorp/golang-lru v0.5.0/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ
 github.com/hashicorp/golang-lru v0.5.1/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
 github.com/hashicorp/hcl v1.0.0 h1:0Anlzjpi4vEasTeNFn2mLJgTSwt0+6sfsiTG8qcWGx4=
 github.com/hashicorp/hcl v1.0.0/go.mod h1:E5yfLk+7swimpb2L/Alb/PJmXilQ/rhwaUYs4T20WEQ=
-github.com/hierynomus/autobind v0.0.6 h1:vYhtSOTtdmQ/P/1sGW3KUmLyBfzpDojZ2ZSeI/7iYgw=
-github.com/hierynomus/autobind v0.0.6/go.mod h1:fucGiCr66RyOFnPd5AhWGNLB7ycta6yNvYVnvmNha1g=
-github.com/hierynomus/iot-monitor v0.0.7 h1:jFm1ZP+FEdi/oJiGTTMNQOaDwPo3Pnlc6/QSkeQimwo=
-github.com/hierynomus/iot-monitor v0.0.7/go.mod h1:7a6UedWf8/A1/Wtn3Vv2/LBt0OmajmDIF5DLUZCg7Iw=
+github.com/hierynomus/autobind v0.0.8 h1:N+XalziHBEgEEzweoOi35gsD/eXHM+Oj9WwBlz6dZi0=
+github.com/hierynomus/autobind v0.0.8/go.mod h1:fucGiCr66RyOFnPd5AhWGNLB7ycta6yNvYVnvmNha1g=
+github.com/hierynomus/iot-monitor v0.0.9 h1:G+VyJIMQXtGFqvm16vI1uCKdCj9tWPKRR4Is8dX2JR0=
+github.com/hierynomus/iot-monitor v0.0.9/go.mod h1:a3AbWEIih1vBxYfmce74Gun0eDx+HJ6ejmGsl4uwC/w=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/inconshreveable/mousetrap v1.0.0 h1:Z8tu5sraLXCXIcARxBp/8cbvlwVa7Z1NHg9XEKhtSvM=
